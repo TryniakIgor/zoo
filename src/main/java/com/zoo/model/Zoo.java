@@ -1,9 +1,12 @@
 package com.zoo.model;
 
 
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 public class Zoo {
     private static Zoo instance;
     public List<Animal> animalList = new ArrayList<>();

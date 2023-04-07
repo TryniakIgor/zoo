@@ -34,7 +34,6 @@ public class AnimalService {
 
     public static void addAnimal(Zoo zoo) {
 
-
         if (!Zoo.isZooCreated()) {
             System.out.println("Please create a zoo first.");
             return;
@@ -69,13 +68,13 @@ public class AnimalService {
 
     @SneakyThrows
     public static void getSpecificAnimal(Zoo zoo) {
-        System.out.println("What is animal`s name? ");
-        String name = reader.readLine();
-        List<Animal> animalList = zoo.getAnimalList();
         if (!Zoo.isZooCreated()) {
             System.out.println("Please create a zoo first.");
             return;
         }
+        System.out.println("What is animal`s name? ");
+        String name = reader.readLine();
+        List<Animal> animalList = zoo.getAnimalList();
 
         if (zoo.getAnimalList().isEmpty()) {
             System.out.println("There are no animals in the zoo.");
@@ -111,26 +110,21 @@ public class AnimalService {
         App.validRange(START_RANGE, END_RANGE, choice);
         switch (choice) {
             case 1:
-                if ( zoo.getAnimalList().isEmpty()) {
-                    System.out.println("Birds have not yet been brought to the zoo");
-                }
-                else
-                zoo.getAnimalList().stream().filter(x -> x.getClass().equals(Bird.class)).forEach(System.out::println);
+                checkAviableViews(Bird.class, zoo.getAnimalList());
                 break;
             case 2:
-                if ( zoo.getAnimalList().isEmpty()) {
-                    System.out.println("Cats have not yet been brought to the zoo");
-                }
-                else
-                zoo.getAnimalList().stream().filter(x -> x.getClass().equals(Cat.class)).forEach(System.out::println);
+                checkAviableViews(Cat.class, zoo.getAnimalList());
                 break;
             case 3:
-                if ( zoo.getAnimalList().isEmpty()) {
-                    System.out.println("Big animal have not yet been brought to the zoo");
-                }
-                else
-                zoo.getAnimalList().stream().filter(x -> x.getClass().equals(BigAnimal.class)).forEach(System.out::println);
+                checkAviableViews(BigAnimal.class, zoo.getAnimalList());
                 break;
         }
+    }
+    private static void checkAviableViews(Class clazz, List<Animal> list){
+        List<Animal> temp = list.stream().filter(x -> x.getClass().equals(clazz)).collect(Collectors.toList());
+        if (temp.isEmpty() || temp == null){
+            System.out.println("These animals have not yet been add to the zoo");
+        }
+        else list.stream().filter(x -> x.getClass().equals(clazz)).forEach(System.out::println);
     }
 }
